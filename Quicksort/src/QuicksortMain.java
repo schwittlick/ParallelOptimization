@@ -21,7 +21,6 @@ public class QuicksortMain {
 
 	public void run() {
 		System.out.println("Array length = " + array.length);
-		print(array);
 		quicksort(array);
 	}
 
@@ -32,13 +31,6 @@ public class QuicksortMain {
 			array[i] = (int) random.nextInt(maxRandom);
 		}
 		return array;
-	}
-
-	public void print(int[] array) {
-		for (int i = 0; i < array.length; i++) {
-			System.out.print(array[i] + ":");
-		}
-		System.out.println("");
 	}
 
 	public void quicksort(int[] array) {
@@ -60,20 +52,40 @@ public class QuicksortMain {
 		boolean change = false;
 		System.out.println("Pivot on: " + (pivotPlace + 1));
 		System.out.println("Value is: " + pivotValue);
+		print(array);
 		while (right != left) {
-			while (array[left] < pivotValue) {
+			while (array[left] <= pivotValue && left != right) {
 				left++;
+				//System.out.println("left: " + left);
 			}
-			while (array[right] > pivotValue) {
+			while (array[right] >= pivotValue && right != left) {
 				right--;
+				//System.out.println("right: " + right);
 			}
-			if (right != left) {
+			if (right == left) {
+				swap(array, left, pivotPlace);
+			} else {
 				swap(array, left, right);
 			}
 			print(array);
 		}
 	}
+	
+	public String toString() {
+		String string = "";
+		for (int i = 0; i < array.length; i++) {
+			string += array[i] + ":";
+		}
+		return string;
+	}
 
+	private void print(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(array[i] + ":");
+		}
+		System.out.println("");
+	}
+	
 	private void swap(int[] array, int indexLeft, int indexRight) {
 		int buffer = array[indexLeft];
 		array[indexLeft] = array[indexRight];
