@@ -27,7 +27,7 @@ public class QuicksortMain {
 
 	public int[] initArrayRandom(int arrayLength, int maxRandom) {
 		int[] array = new int[arrayLength];
-		Random random = new Random(maxRandom);
+		Random random = new Random();
 		for (int i = 0; i < array.length; i++) {
 			array[i] = (int) random.nextInt(maxRandom);
 		}
@@ -42,26 +42,41 @@ public class QuicksortMain {
 	}
 
 	public void quicksort(int[] array) {
-		int pivotPlace = (array.length / 2) - 1;
+		quicksort(array, 0, (array.length - 1));
+	}
+
+	/**
+	 * While left is smaller than pivot -> left++. While right is bigger ->
+	 * right--.
+	 * 
+	 * @param array
+	 * @param left
+	 * @param right
+	 */
+	public void quicksort(int[] array, int left, int right) {
+		int start = left;
+		int pivotPlace = (right - left) / 2;
 		int pivotValue = array[pivotPlace];
-		int arrayBegin = 0;
-		int arrayEnd = array.length - 1;
-		int beginValue;
-		int endValue;
-		boolean change = true;
-		boolean isSorted = false;
-		while (change) {
-			beginValue = array[arrayBegin];
-			endValue = array[arrayEnd];
-			if (beginValue < endValue) {
-				arrayEnd--;
-			} else {
-				array[arrayBegin] = endValue;
-				array[arrayEnd] = beginValue;
-				arrayBegin++;
+		boolean change = false;
+		System.out.println("Pivot on: " + (pivotPlace + 1));
+		System.out.println("Value is: " + pivotValue);
+		while (right != left) {
+			while (array[left] < pivotValue) {
+				left++;
+			}
+			while (array[right] > pivotValue) {
+				right--;
+			}
+			if (right != left) {
+				swap(array, left, right);
 			}
 			print(array);
 		}
-//TODO if smaller as pivot is ok
+	}
+
+	private void swap(int[] array, int indexLeft, int indexRight) {
+		int buffer = array[indexLeft];
+		array[indexLeft] = array[indexRight];
+		array[indexRight] = buffer;
 	}
 }
