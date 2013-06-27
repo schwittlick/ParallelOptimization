@@ -21,7 +21,7 @@ public class QuicksortMain {
 
 	public void run() {
 		System.out.println("Array length = " + array.length);
-		quicksort(array);
+		quicksort(0, array.length - 1);
 	}
 
 	public int[] initArrayRandom(int arrayLength, int maxRandom) {
@@ -33,44 +33,48 @@ public class QuicksortMain {
 		return array;
 	}
 
-	public void quicksort(int[] array) {
-		quicksort(array, 0, (array.length - 1));
-	}
-
 	/**
-	 * While left is smaller than pivot -> left++. While right is bigger ->
-	 * right--.
+	 * Sorts the elements of the values in the array from the left to the right
+	 * index.
 	 * 
 	 * @param array
+	 *            The Array to sort.
 	 * @param left
+	 *            the start of the sort algorithm.
 	 * @param right
+	 *            the end of the index in the array for the sort algorithm
 	 */
-	public void quicksort(int[] array, int left, int right) {
-		int start = left;
-		int pivotPlace = (right - left) / 2;
+	public void quicksort(int left, int right) {
+		final int start = left;
+		final int end = right;
+		int pivotPlace = (start + end) / 2; //
+		pivotPlace += left;
 		int pivotValue = array[pivotPlace];
-		boolean change = false;
 		System.out.println("Pivot on: " + (pivotPlace + 1));
 		System.out.println("Value is: " + pivotValue);
 		print(array);
-		while (right != left) {
+		while (left < right) {
 			while (array[left] <= pivotValue && left != right) {
 				left++;
-				//System.out.println("left: " + left);
 			}
 			while (array[right] >= pivotValue && right != left) {
 				right--;
-				//System.out.println("right: " + right);
+			}
+			if (left < right) {
+				swap(left, right);
 			}
 			if (right == left) {
-				swap(array, left, pivotPlace);
-			} else {
-				swap(array, left, right);
+				swap(left, pivotPlace);
 			}
 			print(array);
 		}
 	}
-	
+
+	/**
+	 * Returns the array from the quicksort as a String.
+	 * 
+	 * @return the array as String.
+	 */
 	public String toString() {
 		String string = "";
 		for (int i = 0; i < array.length; i++) {
@@ -79,14 +83,29 @@ public class QuicksortMain {
 		return string;
 	}
 
+	/**
+	 * 
+	 * @param array
+	 */
 	private void print(int[] array) {
 		for (int i = 0; i < array.length; i++) {
 			System.out.print(array[i] + ":");
 		}
 		System.out.println("");
 	}
-	
-	private void swap(int[] array, int indexLeft, int indexRight) {
+
+	/**
+	 * Swaps two values in the array. The value from indexLeft will be swapped
+	 * with the value from indexRight.
+	 * 
+	 * @param array
+	 *            a array of integer where the values get swapped.
+	 * @param indexLeft
+	 *            the index of one of the values to swap.
+	 * @param indexRight
+	 *            the index of one of the values to swap.
+	 */
+	private void swap(int indexLeft, int indexRight) {
 		int buffer = array[indexLeft];
 		array[indexLeft] = array[indexRight];
 		array[indexRight] = buffer;
