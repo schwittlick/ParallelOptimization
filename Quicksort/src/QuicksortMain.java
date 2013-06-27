@@ -6,16 +6,21 @@ public class QuicksortMain {
 	public QuicksortMain(int arrayLength, int maxRandom) {
 		array = initArrayRandom(arrayLength, maxRandom);
 	}
+	
+	public QuicksortMain(int[] array) {
+		this.array = array;
+	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		final int arrayLength = MyInput.getInt("Array length? 10 - 100 ", 10,
+		/*final int arrayLength = MyInput.getInt("Array length? 10 - 100 ", 10,
 				100);
 		final int maxRandom = MyInput.getInt(
-				"Maximum random number for the array ", 0, 10000000);
-		QuicksortMain app = new QuicksortMain(arrayLength, maxRandom);
+				"Maximum random number for the array ", 0, 10000000);*/
+		int[] array = {22, 42, 11, 2, 34, 3, 20, 28, 27, 44};
+		QuicksortMain app = new QuicksortMain(array);
 		app.run();
 	}
 
@@ -45,28 +50,31 @@ public class QuicksortMain {
 	 *            the end of the index in the array for the sort algorithm
 	 */
 	public void quicksort(int left, int right) {
-		final int start = left;
-		final int end = right;
+		int start = left;
+		int end = right;
 		int pivotPlace = (start + end) / 2; //
-		pivotPlace += left;
+		//pivotPlace += left;
 		int pivotValue = array[pivotPlace];
 		System.out.println("Pivot on: " + (pivotPlace + 1));
 		System.out.println("Value is: " + pivotValue);
 		print(array);
 		while (left < right) {
-			while (array[left] <= pivotValue && left != right) {
+			while (array[left] < pivotValue) {
 				left++;
 			}
-			while (array[right] >= pivotValue && right != left) {
+			while (array[right] > pivotValue) {
 				right--;
 			}
 			if (left < right) {
 				swap(left, right);
 			}
-			if (right == left) {
-				swap(left, pivotPlace);
-			}
 			print(array);
+		}
+		if ((left - start) > 2) {
+			this.quicksort(start, left);
+		}
+		if ((end - right) > 2) {
+			this.quicksort(right, end);
 		}
 	}
 
