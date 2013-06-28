@@ -33,7 +33,9 @@ public class Quicksort {
 	 * Runs the quicksort.
 	 */
 	public void run() {
+		print(array);
 		quicksort(start, end);
+		print(array);
 	}
 
 	/**
@@ -51,33 +53,26 @@ public class Quicksort {
 		logger.info("Starts quickst from " + left + " to " + right);
 		int start = left;
 		int end = right;
-		int pivotPlace = (start + end) / 2;
+		int pivotPlace = (start + (end + 1)) / 2;
 		int pivotValue = array[pivotPlace];
 		logger.debug("start->" + array[left] + " end->" + array[right] 
 				+ " Pivot on: " + pivotPlace + " Value is: " + pivotValue);
 		logger.debug(toString());
 		while (left < right) {
-			while (array[left] < pivotValue) {
-				logger.debug("check Left:" + array[left] 
-						+ " is lower than pivot " + pivotValue);
+			while (array[left] <= pivotValue && left < end) {
 				left++;
 			}
-			logger.debug("DETECT " + array[left] + " on " + left 
-					+ " is bigger than " + pivotValue);
-			while (array[right] > pivotValue) {
-				logger.debug("check Right:" + array[right] 
-						+ " is bigger than pivot " + pivotValue);
+			logger.debug("DETECT left " + array[left] + " on " + left + " is bigger than " + pivotValue);
+			while (array[right] >= pivotValue && start < right) {
 				right--;
 			}
-			logger.info("DETECT " + array[right] + " on " + right 
-					+ " is smaller than " + pivotValue);
+			logger.info("DETECT right " + array[right] + " on " + right + " is smaller than " + pivotValue);
 			if (left < right) {
+				//TODO check on same values and diable -- or ++
 				logger.debug("Swapped " + array[left] + " and " + array[right]);
 				swap(left, right);
-				left++;
-				right--;
-			}
-			if(left == right) {
+			} 
+			if (left == right) {
 				logger.debug("Swapped Pivot" + array[left] 
 						+ " and " + array[pivotPlace]);
 				swap(left, pivotPlace);
@@ -88,11 +83,11 @@ public class Quicksort {
 		logger.debug(toString());
 		left--;
 		right++;
-		if ((left - start) >= 2) {
+		if ((left - start) >= 1) {
 			logger.debug("LEFTSORT");
 			this.quicksort(start, left);
 		}
-		if ((end - right) >= 2) {
+		if ((end - right) >= 1) {
 			logger.debug("RIGHTSORT");
 			this.quicksort(right, end);
 		}

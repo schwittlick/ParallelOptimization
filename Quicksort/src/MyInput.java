@@ -127,11 +127,12 @@ public class MyInput {
 	 * @return Returns an integer from the input of the user.
 	 */
 	public static int getInt(String requirement, int min, int max) {
+		String require = requirement + " [" + min + " - " + max +"] ";
 		int result = 0;
 		boolean inputOK = false;
 		while (!inputOK) {
 			try {
-				result = Integer.parseInt(getText(requirement));
+				result = Integer.parseInt(getText(require));
 				if (result >= min && result <= max)
 					inputOK = true;
 			} catch (NumberFormatException nfe) {
@@ -170,11 +171,12 @@ public class MyInput {
 	 * <b>Example:</b> "Please type in a value of double."
 	 */
 	public static double getDouble(String requirement, double min, double max) {
+		String require = requirement + " [" + min + " - " + max +"] ";
 		double result = 0;
 		boolean inputOK = false;
 		while (!inputOK) {
 			try {
-				result = Double.parseDouble(getText(requirement));
+				result = Double.parseDouble(getText(require));
 				if (isBetween(result, min, max))
 					inputOK = true;
 			} catch (NumberFormatException nfe) {
