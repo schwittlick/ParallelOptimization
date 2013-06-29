@@ -13,9 +13,20 @@ public class QuicksortMain {
 		//int[] array = {23, 12, 55, 94, 1, 12, 56, 22, 9, 76};
 		int[] array = initArrayRandom(arrayLength, maxRandom);
 		int[] array2 = copyArray(array);
+		System.out.println("Starting to Sort.");
+		print(array2);
+		
 		Quicksort app = new Quicksort(array2);
+		System.out.println("Is Sorted: " + app.isSorted());
+		Timer timer = new Timer();
 		app.run();
-		new Thread(new QuicksortRunnable(array)).start();
+		timer.stop();
+		print(array2);
+		System.out.println("Is Sorted: " + app.isSorted());
+		System.out.println("Ended to Sort. Time needed: " + timer.getTime() + "ms");
+		
+		//TODO keep Thread alive until all inner threads died
+		//new Thread(new QuicksortRunnable(array)).start();
 	}
 	
 	private static int[] copyArray(int[] array) {
@@ -39,5 +50,20 @@ public class QuicksortMain {
 			array[i] = (int) random.nextInt(maxRandom);
 		}
 		return array;
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 */
+	private static void print(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.printf("%3d :", i);
+		}
+		System.out.println("");
+		for (int i = 0; i < array.length; i++) {
+			System.out.printf("%3d :", array[i]);
+		}
+		System.out.println("");
 	}
 }

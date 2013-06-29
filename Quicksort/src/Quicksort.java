@@ -24,9 +24,7 @@ public class Quicksort {
 	 * @param array
 	 */
 	public Quicksort(int[] array) {
-		this.array = array;
-		this.start = 0;
-		this.end = array.length -1;
+		init(array, 0, array.length - 1);
 	}
 	
 	/**
@@ -36,18 +34,14 @@ public class Quicksort {
 	 * @param end
 	 */
 	public Quicksort(int[] array, int start, int end) {
-		this.array = array;
-		this.start = start;
-		this.end = end;
+		init(array, start, end);
 	}
 
 	/**
 	 * Runs the quicksort.
 	 */
 	public void run() {
-		print(array);
 		quicksort(start, end);
-		print(array);
 	}
 
 	/**
@@ -118,6 +112,21 @@ public class Quicksort {
 		}
 		return string;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSorted() {
+		boolean isSorted = false;
+		for (int i = 0; i < array.length - 1; i++) {
+			if(array[i] > array[i + 1]) {
+				return isSorted;
+			}
+		}
+		isSorted = true;
+		return isSorted;
+	}
 
 	/**
 	 * Swaps two values in the array. The value from indexLeft will be swapped
@@ -135,18 +144,10 @@ public class Quicksort {
 		array[indexLeft] = array[indexRight];
 		array[indexRight] = buffer;
 	}
-	/**
-	 * 
-	 * @param array
-	 */
-	private void print(int[] array) {
-		for (int i = 0; i < array.length; i++) {
-			System.out.printf("%3d :", i);
-		}
-		System.out.println("");
-		for (int i = 0; i < array.length; i++) {
-			System.out.printf("%3d :", array[i]);
-		}
-		System.out.println("");
+	
+	private void init(int[] array, int start, int end) {
+		this.array = array;
+		this.start = start;
+		this.end = end;
 	}
 }
