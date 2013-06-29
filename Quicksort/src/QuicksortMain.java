@@ -1,8 +1,6 @@
 import java.util.Random;
 
 public class QuicksortMain {
-	private int[] array;
-	
 	/**
 	 * @param args
 	 * @throws  
@@ -14,8 +12,18 @@ public class QuicksortMain {
 		//int [] array = {15,51,33,41,84,36,88,96,76,8,68,95,43,59,92,17,84,42,90,84,74,83,65,43,33,41,84,36,88,96,33,41,84,36,88,96};
 		//int[] array = {23, 12, 55, 94, 1, 12, 56, 22, 9, 76};
 		int[] array = initArrayRandom(arrayLength, maxRandom);
-		Quicksort app = new Quicksort(array);
+		int[] array2 = copyArray(array);
+		Quicksort app = new Quicksort(array2);
 		app.run();
+		new Thread(new QuicksortRunnable(array)).start();
+	}
+	
+	private static int[] copyArray(int[] array) {
+		int[] result = new int[array.length];
+		for (int i = array.length - 1; 0 <= i; --i) {
+			result[i] = array[i];
+		}
+		return result;
 	}
 	
 	/**

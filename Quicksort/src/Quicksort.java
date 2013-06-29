@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
  */
 public class Quicksort {
 	/** The array to sort.*/
-	private int[] array;
+	protected int[] array;
 	
 	/**Starting location to start from.*/ 
-	private int start;
+	protected int start;
 	
 	/** Ending location to end with.*/
-	private int end;
+	protected int end;
 	
 	/** The logger from loger4j to log information in the class*/
 	private static Logger logger = Logger.getLogger(Quicksort.class);
@@ -27,6 +27,18 @@ public class Quicksort {
 		this.array = array;
 		this.start = 0;
 		this.end = array.length -1;
+	}
+	
+	/**
+	 * 
+	 * @param array
+	 * @param start
+	 * @param end
+	 */
+	public Quicksort(int[] array, int start, int end) {
+		this.array = array;
+		this.start = start;
+		this.end = end;
 	}
 
 	/**
@@ -108,6 +120,22 @@ public class Quicksort {
 	}
 
 	/**
+	 * Swaps two values in the array. The value from indexLeft will be swapped
+	 * with the value from indexRight.
+	 * 
+	 * @param array
+	 *            a array of integer where the values get swapped.
+	 * @param indexLeft
+	 *            the index of one of the values to swap.
+	 * @param indexRight
+	 *            the index of one of the values to swap.
+	 */
+	protected void swap(int indexLeft, int indexRight) {
+		int buffer = array[indexLeft];
+		array[indexLeft] = array[indexRight];
+		array[indexRight] = buffer;
+	}
+	/**
 	 * 
 	 * @param array
 	 */
@@ -120,22 +148,5 @@ public class Quicksort {
 			System.out.printf("%3d :", array[i]);
 		}
 		System.out.println("");
-	}
-
-	/**
-	 * Swaps two values in the array. The value from indexLeft will be swapped
-	 * with the value from indexRight.
-	 * 
-	 * @param array
-	 *            a array of integer where the values get swapped.
-	 * @param indexLeft
-	 *            the index of one of the values to swap.
-	 * @param indexRight
-	 *            the index of one of the values to swap.
-	 */
-	private void swap(int indexLeft, int indexRight) {
-		int buffer = array[indexLeft];
-		array[indexLeft] = array[indexRight];
-		array[indexRight] = buffer;
 	}
 }
