@@ -6,7 +6,7 @@ public class QuicksortMain {
 	 * @throws  
 	 */
 	public static void main(String[] args) {
-		final int arrayLength = MyInput.getInt("Array length?", 10,	10000);
+		final int arrayLength = MyInput.getInt("Array length?", 10,	10000000);
 		final int maxRandom = MyInput.getInt(
 				"Maximum random number for the array ", 0, 10000000);
 		//int [] array = {15,51,33,41,84,36,88,96,76,8,68,95,43,59,92,17,84,42,90,84,74,83,65,43,33,41,84,36,88,96,33,41,84,36,88,96};
@@ -14,19 +14,25 @@ public class QuicksortMain {
 		int[] array = initArrayRandom(arrayLength, maxRandom);
 		int[] array2 = copyArray(array);
 		System.out.println("Starting to Sort.");
-		print(array2);
-		
 		Quicksort app = new Quicksort(array2);
 		System.out.println("Is Sorted: " + app.isSorted());
 		Timer timer = new Timer();
 		app.run();
 		timer.stop();
-		print(array2);
 		System.out.println("Is Sorted: " + app.isSorted());
 		System.out.println("Ended to Sort. Time needed: " + timer.getTime() + "ms");
 		
 		//TODO keep Thread alive until all inner threads died
-		//new Thread(new QuicksortRunnable(array)).start();
+		Thread thread = new Thread(new QuicksortRunnable(array));
+		System.out.println("Starting to Thread.");
+		thread.start();
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Ending Thread");
 	}
 	
 	private static int[] copyArray(int[] array) {
