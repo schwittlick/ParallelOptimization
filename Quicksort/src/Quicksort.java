@@ -140,6 +140,7 @@ public class Quicksort {
 	}
 	
 	/**
+	 * Initializes a Quicksort.
 	 * 
 	 * @param array
 	 * @param start

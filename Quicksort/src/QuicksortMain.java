@@ -23,16 +23,10 @@ public class QuicksortMain {
 		System.out.println("Ended to Sort. Time needed: " + timer.getTime() + "ms");
 		
 		//TODO keep Thread alive until all inner threads died
-		Thread thread = new Thread(new QuicksortRunnable(array));
-		System.out.println("Starting to Thread.");
-		thread.start();
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Ending Thread");
+		//Thread thread = new Thread(new QuicksortRunnable(array));
+		//System.out.println("Starting to Thread.");
+		//thread.start();
+		//thread.join();
 	}
 	
 	private static int[] copyArray(int[] array) {
