@@ -14,10 +14,14 @@ public class ImagePanel extends JPanel {
 	
 	private void setupImagePanel() {
 		setBackground(Color.PINK);
-		setSize(60, 60);
+		setSize(375, 278);
 	}
 	
 	public void setImage(Image image) {
 		this.image = image;
+	}
+	
+	public void invertImage() {
+		
 	}
 }
