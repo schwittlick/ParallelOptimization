@@ -3,7 +3,7 @@
  * @author Dennis Haegler
  *
  */
-public class Quicksort {
+public class Quicksorter {
 	/** The array to sort.*/
 	protected int[] array;
 	
@@ -20,7 +20,7 @@ public class Quicksort {
 	 * 
 	 * @param array
 	 */
-	public Quicksort(int[] array) {
+	public Quicksorter(int[] array) {
 		init(array, 0, array.length - 1);
 	}
 	
@@ -30,7 +30,7 @@ public class Quicksort {
 	 * @param start
 	 * @param end
 	 */
-	public Quicksort(int[] array, int start, int end) {
+	public Quicksorter(int[] array, int start, int end) {
 		init(array, start, end);
 	}
 
