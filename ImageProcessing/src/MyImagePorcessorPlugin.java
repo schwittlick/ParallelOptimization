@@ -2,17 +2,15 @@ import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ImageProcessor;
 
+public class MyImagePorcessorPlugin implements PlugInFilter {
 
-public class MyImagePorcessorPlugin implements PlugInFilter{
-	
 	public static void main(String[] args) {
-		//TODO
+		// TODO
 	}
 
 	@Override
-	public void run(ImageProcessor arg0) {
+	public void run(ImageProcessor imageProcessor) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

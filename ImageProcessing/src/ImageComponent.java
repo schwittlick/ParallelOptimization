@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
-class ImageComponent extends JComponent {
+public class ImageComponent extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private Image image;
 
@@ -27,11 +27,13 @@ class ImageComponent extends JComponent {
 
 		g.drawImage(image, 50, 50, this);
 
-		for (int i = 0; i * imageWidth <= getWidth(); i++)
-			for (int j = 0; j * imageHeight <= getHeight(); j++)
+		for (int i = 0; i * imageWidth <= getWidth(); i++) {
+			for (int j = 0; j * imageHeight <= getHeight(); j++) {
 				if (i + j > 0)
 					g.copyArea(0, 0, imageWidth, imageHeight, i * imageWidth, j
 							* imageHeight);
+			}
+		}
 	}
 
 }

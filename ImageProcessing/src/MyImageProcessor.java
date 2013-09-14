@@ -11,48 +11,44 @@ import ij.process.ImageProcessor;
 
 public class MyImageProcessor implements PlugInFilter {
 
-	/** Initialisierung in ImageJ */
+	/** Init in ImageJ */
 	public int setup(String arg, ImagePlus imp) {
 		if (arg.equals("about")) {
 			showAbout();
 			return DONE;
 		}
-		// Zugelassen nur für 8-Bit Graubilder
 		return DOES_8G + NO_CHANGES;
 	}
 
-	/** About Message zu diesem Plug-In. */
+	/** About Message for the Plug-In. */
 	public void showAbout() {
 		IJ.showMessage("Graubildtest", "Testprogramm");
 	}
 
 	public void run(ImageProcessor ip) {
-		// get width, height and the region of interest
-		int w = ip.getWidth();
-		int h = ip.getHeight();
+		int width = ip.getWidth();
+		int height = ip.getHeight();
 		Rectangle roi = ip.getRoi();
 
 		// create a new image with the same size and copy the pixels of the
 		// original image
-		ImagePlus corrected = NewImage.createByteImage("Corrected image", w, h,	1, NewImage.FILL_BLACK);
+		ImagePlus corrected = NewImage.createByteImage("Corrected image", width, height, 1, NewImage.FILL_BLACK);
 		ImageProcessor correctedImageProcessor = corrected.getProcessor();
 		correctedImageProcessor.copyBits(ip, 0, 0, Blitter.COPY);
 		
-		// Pixel-Array des Eingabebildes
-		byte[] pixelsin = (byte[]) ip.getPixels();
-		// Pixelarray des neuen Bildes
-		byte[] pixels = (byte[]) correctedImageProcessor.getPixels();
+		byte[] inputImage = (byte[]) ip.getPixels();
+		byte[] newImage = (byte[]) correctedImageProcessor.getPixels();
 		
 		
 		/*********** An dieser Stelle kann an den einzelnen Pixeln gearbeitet werden. *********/
 
-		// Beispiel invertieren:
+		// Excample Quick and Dirty
 
 		for (int i = roi.y; i < roi.y + roi.height; i++) {
-			int offset = i * w;
+			int offset = i * width;
 			for (int j = roi.x; j < roi.x + roi.width; j++) {
 				int pos = offset + j;
-				pixels[pos] = (byte) (255 - pixelsin[pos]);
+				newImage[pos] = (byte) (255 - inputImage[pos]);
 			}
 		}
 

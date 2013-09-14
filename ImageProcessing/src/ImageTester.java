@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 public class ImageTester {
 
 	public ImageTester() {
-
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -27,17 +26,22 @@ public class ImageTester {
 	}
 
 	public void testImage(BufferedImage image) throws IOException {
-
-		for (int x = 0; x < image.getWidth(); x++) {
-			for (int y = 0; y < image.getHeight(); y++) {
-				final int clr = image.getRGB(x, y);
-				final int red = (clr & 0x00ff0000) >> 16;
-				final int green = (clr & 0x0000ff00) >> 8;
-				final int blue = clr & 0x000000ff;
-
+		int clr;
+		int red;
+		int green;
+		int blue;
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+		
+		for (int curX = 0; curX < imageWidth; curX++) {
+			for (int curY = 0; curY < imageHeight; curY++) {
+				clr = image.getRGB(curX, curY);
+				red = (clr & 0x00ff0000) >> 16;
+				green = (clr & 0x0000ff00) >> 8;
+				blue = clr & 0x000000ff;
 				// Color Red get cordinates
 				if (red == 255) {
-					System.out.println(String.format("Coordinate %d %d", x, y));
+					System.out.println(String.format("Coordinate %d %d", curX, curY));
 				} else {
 					System.out.println("Red Color value = " + red);
 					System.out.println("Green Color value = " + green);
