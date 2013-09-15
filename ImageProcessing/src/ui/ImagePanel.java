@@ -1,24 +1,39 @@
 package ui;
 
-import java.awt.Image;
+import ij.plugin.Scaler;
+import ij.process.ImageProcessor;
 
-import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
-	Image image;
+	private BufferedImage image;
 	
 	public ImagePanel() {
+		setupImagePanel();
+		try {
+			image = ImageIO.read(new File("test.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Image scaledImage = image.getScaledInstance(this.getWidth(), this.getHeight(),BufferedImage.SCALE_SMOOTH);
+		JLabel picLabel = new JLabel(new ImageIcon(scaledImage));
+		add(picLabel);
 		setupImagePanel();
 	}
 	
 	private void setupImagePanel() {
-		setBackground(Color.PINK);
+		setBackground(Color.WHITE);
 		setSize(375, 278);
-	}
-	
-	public void setImage(Image image) {
-		this.image = image;
 	}
 	
 	public void invertImage() {

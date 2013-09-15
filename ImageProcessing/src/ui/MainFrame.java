@@ -5,27 +5,20 @@ import java.awt.Toolkit;
 
 import javax.swing.*;
 
-public class UserInterfaceFrame extends JFrame {
+public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private MainPanel myPanel;
+	private MainPanel mainPanel;
 	
-
-	public UserInterfaceFrame() {
-		myPanel = new MainPanel();
+	public MainFrame() {
+		mainPanel = new MainPanel();
 		this.setUp();
 	}
 	
 	private void setUp() {
-		this.setFrameMiddle();
-		this.setContentPane(myPanel);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(800, 600);
+		this.setContentPane(mainPanel);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
-	
-	private void setFrameMiddle() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension dim = toolkit.getScreenSize();
-		int xPos = (dim.width / 2) - (this.getWidth() / 2);
-		int yPos = (dim.height / 2) - (this.getHeight() / 2);
-		this.setLocation(xPos, yPos);
-	}
-
 }

@@ -1,3 +1,4 @@
+package image.processing;
 import java.awt.Rectangle;
 
 import ij.IJ;

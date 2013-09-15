@@ -7,17 +7,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import ui.MainPanel;
+
 public class ImageTester {
 
 	public ImageTester() {
-	}
-
-	public static void main(String[] args) throws IOException {
-		ImageFrame frame = new ImageFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-		ImageTester imTester = new ImageTester();
-		imTester.run();
 	}
 
 	public void run() throws IOException {
@@ -39,7 +33,7 @@ public class ImageTester {
 				red = (clr & 0x00ff0000) >> 16;
 				green = (clr & 0x0000ff00) >> 8;
 				blue = clr & 0x000000ff;
-				// Color Red get cordinates
+				// Color Red get coordinates
 				if (red == 255) {
 					System.out.println(String.format("Coordinate %d %d", curX, curY));
 				} else {
