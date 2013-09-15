@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -8,11 +9,19 @@ import javax.swing.JPanel;
 
 import ui.button.ButtonPanel;
 
+/**
+ * 
+ * @author Dennis Haegler
+ *
+ */
 public class MainPanel extends JPanel {
 	private ButtonPanel buttonPanel;
 	private ImagePanel imagePanel;
 	private GroupLayout groupLayout;
 
+	/**
+	 * 
+	 */
 	public MainPanel() {
 		buttonPanel = new ButtonPanel();
 		imagePanel = new ImagePanel();
@@ -21,6 +30,9 @@ public class MainPanel extends JPanel {
 		this.setUp();
 	}
 	
+	/**
+	 * 
+	 */
 	private void setUpLayout() {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -43,9 +55,19 @@ public class MainPanel extends JPanel {
 			setLayout(groupLayout);
 	}
 	
+	/**
+	 * 
+	 */
 	private void setUp() {
 		buttonPanel.setPreferredSize(new Dimension(100, 100));
 		imagePanel.setPreferredSize(new Dimension(400, 250));
 	}
-
+	
+	/**
+	 * 
+	 * @param e
+	 */
+	public void setActionListener(ActionListener e) {
+		this.buttonPanel.setActionListener(e);
+	}
 }
