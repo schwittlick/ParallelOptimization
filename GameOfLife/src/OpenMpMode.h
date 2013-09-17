@@ -32,5 +32,9 @@ private:
 	void restart(void); // restarts the entire animation
 	void clean(void); // cleans some objects
 	void guiEvent(ofxUIEventArgs &e); // callback method for gui events
+
+	float elapsedTimeSinceLastReset;
+	ofFile file;
+	int elapsedFrames;
 };
 
