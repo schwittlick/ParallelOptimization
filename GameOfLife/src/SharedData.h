@@ -44,6 +44,11 @@ public:
 	/* string constants holding the names for each state. for some reason this is determined by a string by the ofxStateMachine addon. */
 	const std::string OPENMP;
 	const std::string SEQUENTIAL;
+	const std::string OPENCL;
+	const std::string GLSL;
+
+	int dimension;
+	bool isBenchmarkMode;
 
 	
 	int numberOfCores;// number of CPU cores being present in the computer
