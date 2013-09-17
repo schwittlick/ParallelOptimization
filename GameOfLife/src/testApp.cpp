@@ -1,6 +1,10 @@
 #include "testApp.h"
 #include "SequentialMode.h"
 #include "OpenMpMode.h"
+#include "OpenCLMode.h"
+#include "GLSLMode.h"
+
+
 
 testApp::testApp(void)
 {
@@ -15,9 +19,13 @@ testApp::~testApp(void)
 }
 
 void testApp::setup(){
-	stateMachine.addState(new OpenMpMode());
-	stateMachine.addState(new SequentialMode());
-	stateMachine.changeState(stateMachine.getSharedData().SEQUENTIAL);
+	ofEnableAlphaBlending();
+	ofSetFrameRate( 500 );
+	stateMachine.addState( new OpenMpMode() );
+	stateMachine.addState( new SequentialMode() );
+	stateMachine.addState( new OpenCLMode() );
+	stateMachine.addState( new GLSLMode() );
+	stateMachine.changeState( stateMachine.getSharedData().GLSL );
 }
 
 //--------------------------------------------------------------
