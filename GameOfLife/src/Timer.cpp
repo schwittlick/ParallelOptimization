@@ -24,7 +24,7 @@ Timer::~Timer(void)
 */
 void Timer::start(void)
 {
-	startMillis = clock();
+	startMillis = std::clock();
 	if(verbose)
 	{
 		std::cout << "Timer started " << startMillis << "ms" << std::endl;
