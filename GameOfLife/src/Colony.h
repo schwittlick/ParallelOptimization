@@ -3,6 +3,8 @@
 #include <ofMain.h>
 #include "Cell.h"
 #include "Timer.h"
+#include <CL\opencl.h>
+#include "FreeImage.h"
 
 namespace gol
 {
@@ -17,6 +19,7 @@ public:
 	// advance to next generation of game of life
 	void populate(void);
 	void populateOpenMP(int nrOfCores);
+	void populateOpenCL(  );
 
 	// getters
 	int getDimension(void);
@@ -33,6 +36,11 @@ public:
 	Timer* getUpdateNeighbourTimer(void);
 	Timer* getAdvanceTimer(void);
 
+	void draw();
+
+	void setCell(int x, int y, Cell* c);
+	void setCell( int x, int y, bool status );
+
 private:
 	vector<gol::Cell*> cells; // contains all cells
 	int dimension; // the dimension of the colony. dimension*dimension
@@ -44,6 +52,9 @@ private:
 	void updateNeighboursOpenMP(int nrOfCores);
 	void advanceOpenMP(int nrOfCores);
 
+	void updateNeighboursOpenCL( void );
+	void advanceOpenCL( void );
+
 	void advance(int nrOfCores);
 	void updateNeighbours(int nrOfCores);
 
@@ -52,6 +63,14 @@ private:
 	Timer *updateNeighboursTimer;
 	Timer *advanceTimer;
 
-	void setCell(int x, int y, Cell* c);
+	
+
+	
+	void charArrayToOfImage( unsigned char* sourceBuffer, ofImage *dstImage, int w, int h );
+	ofImage ima;
+
+	FIBITMAP *image_bitmap;
+	unsigned char *bmpBits;
+
 	
 };
