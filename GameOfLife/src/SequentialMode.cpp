@@ -1,10 +1,15 @@
 #include "SequentialMode.h"
 
+#define BENCHMARK
+
 SequentialMode::SequentialMode(void) :
-	dimension(200),
-	running(false)
+	dimension(50),
+	running(true),
+	file(ofToDataPath("benchmark_sequential_mode.csv"), ofFile::WriteOnly ),
+	elapsedFrames( 0 )
 {
 	std::cout << "SequentialMode" << "\n";
+
 }
 
 SequentialMode::~SequentialMode(void)
@@ -20,18 +25,18 @@ void SequentialMode::stateEnter(void)
 	colony = new gol::Colony(dimension);
 
 	// creates a new gui and adds several sliders and buttons
-	gui = new ofxUICanvas(0, 0, 350, 300);
+	gui = new ofxUICanvas(0, 0, 350, 350);
 	gui->setAutoDraw(false);
-	gui->setColorBack(ofColor(0, 200));  
+	gui->setColorBack(ofColor(0, 90));  
 	gui->addWidgetDown(new ofxUILabel("Game of Life (Sequential)", OFX_UI_FONT_LARGE)); 
-	gui->addWidgetDown(new ofxUISlider(300,20,0,2000,600.0,"RESOLUTION")); 
+	gui->addWidgetDown(new ofxUISlider(300,20,0,6144,dimension,"RESOLUTION")); 
 	gui->addWidgetDown(new ofxUIButton(32, 32, false, "REINIT"));
 	gui->addWidgetDown(new ofxUISlider(300,20,0,1,0.0,"RANDOMCHANCE")); 
-	gui->addWidgetDown(new ofxUIToggle(32, 32, false, "RUNNING"));
+	gui->addWidgetDown(new ofxUIToggle(32, 32, true, "RUNNING"));
 	gui->addWidgetRight(new ofxUIButton(32, 32, false, "RANDOM"));
 	gui->addWidgetDown(new ofxUILabel("AVERAGE TIME", OFX_UI_FONT_LARGE));
 	ofAddListener(gui->newGUIEvent, this, &SequentialMode::guiEvent); 
-	gui->loadSettings("GUI/guiSettings.xml"); 
+	//gui->loadSettings("GUI/guiSettings.xml"); 
 
 	drawTimer = new Timer();  // starts the timer for the elapsed time during drawing the game of life.
 	restart(); // restarts the entire animation
@@ -46,13 +51,39 @@ void SequentialMode::stateExit(void)
 }
 
 /*
- * update method. updateing values.
+ * update method. updating values.
 */
 void SequentialMode::update()
 {
+	if( getSharedData().isBenchmarkMode )
+	{
+		if( elapsedFrames > 50 ) {
+			running = false;
+		} 
+		else 
+		{
+			running = true;
+		}
+	}
+
 	if(running)
 	{
 		colony->populate();
+		elapsedFrames++;
+	} else if( getSharedData().isBenchmarkMode && dimension < 4100 )
+	{
+		std::cout << "New dimension: " << dimension << std::endl;
+		dimension += 50;
+		elapsedFrames = 0;
+		float elapsed = colony->getUpdateNeighbourTimer()->getAverageTime();
+		elapsed += colony->getAdvanceTimer()->getAverageTime();
+		file << dimension << "," << elapsed << std::endl;
+		if(dimension == 4000)
+		{
+			file.close();
+			std::cout << "Finished Benchmark for Sequential mode." << std::endl;
+		}
+		restart();
 	}
 }
 
@@ -94,6 +125,8 @@ void SequentialMode::draw()
 
 	// drawing statistics about the draw timer to the screen. (should be included into the timer, but well, what was first, the hen or the egg?)
 	ofDrawBitmapString("drawing average: "+ofToString(drawTimer->getAverageTime())+" ms", 20, 295);
+
+	ofDrawBitmapString("elapsed time since restart: " +ofToString( ofGetElapsedTimef() - elapsedTimeSinceLastReset )+" s", 20, 310 );
 }
 
 /*
@@ -187,6 +220,8 @@ void SequentialMode::restart(void)
 
 	delete drawTimer;
 	drawTimer = new Timer();
+
+	elapsedTimeSinceLastReset = ofGetElapsedTimef();
 }
 
 /*
