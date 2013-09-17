@@ -63,6 +63,10 @@ public class MainPanel extends JPanel {
 		imagePanel.setPreferredSize(new Dimension(400, 250));
 	}
 	
+	public ImagePanel getImagePanel() {
+		return this.imagePanel;
+	}
+	
 	/**
 	 * 
 	 * @param e
