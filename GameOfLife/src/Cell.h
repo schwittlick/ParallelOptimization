@@ -15,9 +15,10 @@ public:
 	bool isAlive(void);
 	void setNeighbourCount(int n);
 	int getNeighbourCount(void);
+	bool alive; // status indicating if the cells is dead or alive
 
 private:
-	bool alive; // status indicating if the cells is dead or alive
+	
 	int neighbours; // the nr of alive cells next to this cell
 };
 
