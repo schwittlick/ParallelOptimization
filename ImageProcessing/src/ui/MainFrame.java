@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Image;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -32,7 +31,6 @@ public class MainFrame extends JFrame {
 		this.setSize(800, 600);
 		this.setContentPane(mainPanel);
 		this.setLocationRelativeTo(null);
-		//this.setVisible(true);
 	}
 
 	/**
@@ -40,7 +38,6 @@ public class MainFrame extends JFrame {
 	 * @param e
 	 */
 	public void setActionListener(ActionListener e) {
-		System.out.println("invert");
 		this.mainPanel.setActionListener(e);
 	}
 	
@@ -50,5 +47,12 @@ public class MainFrame extends JFrame {
 	public void setImage(Image image) {
 		this.mainPanel.getImagePanel().setImage(image);
 	}
+	
+	public int getWidth() {
+		return this.mainPanel.getWidth();
+	}
 
+	public int getHeight() {
+		return this.mainPanel.getHeight();
+	}
 }

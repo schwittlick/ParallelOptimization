@@ -17,6 +17,8 @@ import ui.button.ButtonStats;
 public class ImageProcessingController implements ActionListener {
 	private MainFrame view;
 	MyImageProcessor model;
+	int widht;
+	int heigth;
 
 	/**
 	 * 
@@ -26,13 +28,16 @@ public class ImageProcessingController implements ActionListener {
 	public ImageProcessingController(MainFrame view, MyImageProcessor m) {
 		this.view = view;
 		this.model = m;
+		
 		this.setUp();
 	}
 	
 	private void setUp() {
-		actionListenerMeth(this);
+		setThisClassAsActionListener(this);
 		this.view.setVisible(true);
-		Image image = model.getScaledImage(200, 150);
+		this.widht = view.getWidth();
+		this.heigth = view.getHeight();
+		Image image = model.getScaledImage(this.widht, this.heigth);
 		this.view.setImage(image);
 	}
 
@@ -40,7 +45,7 @@ public class ImageProcessingController implements ActionListener {
 	 * 
 	 * @param ae
 	 */
-	private void actionListenerMeth(ActionListener ae) {
+	private void setThisClassAsActionListener(ActionListener ae) {
 		view.setActionListener(ae);
 	}
 
@@ -53,12 +58,13 @@ public class ImageProcessingController implements ActionListener {
 			model.gaus();
 		}
 		if (e.getActionCommand().equals(ButtonStats.BRIGHTER)) {
-			System.out.println("BRIGHTER");
+			model.makeBrighter();
 		}
 		if (e.getActionCommand().equals(ButtonStats.DARKER)) {
-			System.out.println("DARKER");
+			model.makeDarker();
 		}
-		Image image = model.getScaledImage(200, 100);
-		view.setIconImage(image);
+		
+		Image image = model.getScaledImage(this.widht, this.heigth);
+		view.setImage(image);
 	}
 }

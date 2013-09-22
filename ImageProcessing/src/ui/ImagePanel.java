@@ -1,7 +1,9 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.font.GraphicAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,25 +15,25 @@ import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
 	private Image image;
-	JLabel picLabel;
-	
+		
 	public ImagePanel() {
+		super();
 		setupImagePanel();
 	}
 	
 	private void setupImagePanel() {
-		setBackground(Color.WHITE);
 		setSize(375, 278);
 	}
 	
-	private void setUpImage() {
-		picLabel = new JLabel(new ImageIcon(image));
-		add(picLabel);
+	@Override
+	public void paintComponent(Graphics g) {
+		//super.paintComponent(g);
+		g.drawImage(image, 0, 0, null);
 	}
 	
 	public void setImage(Image image) {
 		this.image = image;
-		setUpImage();
+		this.updateUI();
 	}
 	
 	public void changeColor() {
