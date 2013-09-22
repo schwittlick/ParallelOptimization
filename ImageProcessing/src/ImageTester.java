@@ -1,13 +1,8 @@
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
-import ui.MainPanel;
 
 public class ImageTester {
 

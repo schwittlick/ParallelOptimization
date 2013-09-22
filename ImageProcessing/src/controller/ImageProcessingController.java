@@ -1,6 +1,7 @@
 package controller;
 
 import imageprocessing.MyImageProcessor;
+import imageprocessing.MyTimer;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,10 @@ import ui.button.ButtonStats;
 /**
  * 
  * @author Dennis Haegler
- * 
+ *
  */
 public class ImageProcessingController implements ActionListener {
+	MyTimer timer;
 	private MainFrame view;
 	MyImageProcessor model;
 	int widht;
@@ -26,11 +28,12 @@ public class ImageProcessingController implements ActionListener {
 	 * @param m
 	 */
 	public ImageProcessingController(MainFrame view, MyImageProcessor m) {
+		this.timer = new MyTimer();
 		this.view = view;
 		this.model = m;
 		this.setUp();
 	}
-	
+
 	private void setUp() {
 		setThisClassAsActionListener(this);
 		this.view.setVisible(true);
@@ -59,7 +62,7 @@ public class ImageProcessingController implements ActionListener {
 		if (e.getActionCommand().equals(ButtonStats.DARKER)) {
 			model.makeDarker();
 		}
-		
+
 		Image image = model.getScaledImage(this.widht, this.heigth);
 		view.setImage(image);
 	}

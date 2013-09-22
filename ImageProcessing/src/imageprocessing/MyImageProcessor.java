@@ -2,15 +2,19 @@ package imageprocessing;
 
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorConvertOp;
 import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * 
+ * @author Dennis Haegler
+ * @version 1.0
+ *
+ */
 public class MyImageProcessor {
 	private BufferedImage image;
 	private byte[] imageAsByte;

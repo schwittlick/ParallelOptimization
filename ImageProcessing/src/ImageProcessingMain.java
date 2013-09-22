@@ -1,7 +1,6 @@
-import controller.ImageProcessingController;
-import ij.process.ImageProcessor;
 import imageprocessing.MyImageProcessor;
 import ui.MainFrame;
+import controller.ImageProcessingController;
 
 /**
  * 
