@@ -1,4 +1,4 @@
-package image.processing;
+package imageprocessing;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -97,10 +97,6 @@ public class MyImageProcessor {
 				image.setRGB(curX, curY, col.getRGB());
 			}
 		}
-	}
-
-	public void gaus() {
-		System.out.println("GAUS NOT IMPLEMENTED");
 	}
 
 	public void realInvert() {

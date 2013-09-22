@@ -1,6 +1,6 @@
 package controller;
 
-import image.processing.MyImageProcessor;
+import imageprocessing.MyImageProcessor;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -28,7 +28,6 @@ public class ImageProcessingController implements ActionListener {
 	public ImageProcessingController(MainFrame view, MyImageProcessor m) {
 		this.view = view;
 		this.model = m;
-		
 		this.setUp();
 	}
 	
@@ -53,9 +52,6 @@ public class ImageProcessingController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(ButtonStats.INVERT)) {
 			model.invert();
-		}
-		if (e.getActionCommand().equals(ButtonStats.GAUS)) {
-			model.gaus();
 		}
 		if (e.getActionCommand().equals(ButtonStats.BRIGHTER)) {
 			model.makeBrighter();
