@@ -15,7 +15,7 @@ public class ImagePanel extends JPanel {
 	}
 	
 	private void setupImagePanel() {
-		setSize(375, 278);
+		//setSize(1200, 800);
 	}
 	
 	@Override

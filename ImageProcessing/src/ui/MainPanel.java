@@ -25,7 +25,6 @@ public class MainPanel extends JPanel {
 	public MainPanel() {
 		buttonPanel = new ButtonPanel();
 		imagePanel = new ImagePanel();
-		groupLayout = new GroupLayout(this);
 		setUpLayout();
 		this.setUp();
 	}
@@ -34,13 +33,14 @@ public class MainPanel extends JPanel {
 	 * 
 	 */
 	private void setUpLayout() {
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-			.addGroup(groupLayout.createSequentialGroup()
+			groupLayout = new GroupLayout(this);
+			groupLayout.setHorizontalGroup(
+				groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createSequentialGroup()
 						.addContainerGap()
 						.addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
 						.addGap(18)
-						.addComponent(imagePanel, GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+						.addComponent(imagePanel, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
 						.addContainerGap())
 			);
 			groupLayout.setVerticalGroup(
@@ -48,9 +48,9 @@ public class MainPanel extends JPanel {
 					.addGroup(groupLayout.createSequentialGroup()
 						.addGap(17)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-							.addComponent(imagePanel, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(23, Short.MAX_VALUE))
+							.addComponent(imagePanel, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+							.addComponent(buttonPanel, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap())
 			);
 			setLayout(groupLayout);
 	}
@@ -60,7 +60,7 @@ public class MainPanel extends JPanel {
 	 */
 	private void setUp() {
 		buttonPanel.setPreferredSize(new Dimension(100, 100));
-		imagePanel.setPreferredSize(new Dimension(400, 250));
+		imagePanel.setPreferredSize(new Dimension(800, 600));
 	}
 	
 	public ImagePanel getImagePanel() {
@@ -73,5 +73,9 @@ public class MainPanel extends JPanel {
 	 */
 	public void setActionListener(ActionListener e) {
 		this.buttonPanel.setActionListener(e);
+	}
+
+	public void setPanelSize(int width, int height) {
+		this.imagePanel.setPreferredSize(new Dimension(width, height));
 	}
 }

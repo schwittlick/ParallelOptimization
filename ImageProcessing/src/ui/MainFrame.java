@@ -56,4 +56,9 @@ public class MainFrame extends JFrame {
 	public int getHeight() {
 		return this.mainPanel.getHeight();
 	}
+
+	public void setPanelSize(int width, int height) {
+		this.mainPanel.setPanelSize(width, height);
+		
+	}
 }

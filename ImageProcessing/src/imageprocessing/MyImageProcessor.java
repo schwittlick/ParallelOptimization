@@ -6,18 +6,22 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 /**
- * 
+ *
  * @author Dennis Haegler
  * @version 1.0
- *
+ * 
  */
 public class MyImageProcessor {
+	private final int CORES = Runtime.getRuntime().availableProcessors();
 	private BufferedImage image;
-	private byte[] imageAsByte;
+	private int[] rgba;
+	private int width;
+	private int height;
 
 	/**
 	 * 
@@ -29,41 +33,96 @@ public class MyImageProcessor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//setUpByteArray();
-		
+		setUp();
+	}
+
+	/**
+	 * 
+	 */
+	private void setUp() {
+		this.height = image.getHeight();
+		this.width = image.getWidth();
+		this.initRgbaArray();
+		setUpThreads();
 	}
 	
-	private void setUpByteArray() {
-		int w = image.getWidth();
-		int h = image.getHeight();
-		int offset = 0;
-		int rgb;
-		int red;
-		int green;
-		int blue;
-		
-		this.imageAsByte = new byte[w * h];
-		for (int height = 0; height < h; h++){
-			offset = w * height; 
-			
-			for (int widht = 0; widht < w; w++) {
-				rgb = image.getRGB(widht, height);
-		        red = (rgb >> 16) & 0xFF;
-		        green = (rgb >> 8) & 0xFF;
-		        blue = (rgb & 0xFF);
-
-		        this.imageAsByte[offset + widht] = (byte)((red + green + blue) / 3);
-		        
+	/**
+	 * 
+	 */
+	private void initRgbaArray() {
+		this.rgba = new int[width * height];
+		int offset;
+		for (int curY = 1; curY < height; curY++) {
+			offset = curY * width;
+			for (int curX = 1; curX < width; curX++) {
+				rgba[offset + curX] = image.getRGB(curX, curY);
 			}
 		}
 	}
-	
-	private int[] castImageFromByteToInt(byte[] pixelsin, int w, int h) {
-		int[] pixelBuffer = new int[w * h];
-		for (int p = 0; p < pixelsin.length; p++) {
-			pixelBuffer[p] = pixelsin[p] & 0x0000ff;
+
+	/*
+	 * 
+	 */
+	private void setUpThreads() {
+	}
+
+	/**
+	 * 
+	 */
+	public void invert() {
+		Color col;
+		int offset;
+		for (int curY = 1; curY < height; curY++) {
+			offset = curY * width;
+			for (int curX = 1; curX < width; curX++) {
+				col = new Color(this.rgba[offset + curX], true);
+				col = new Color(255 - col.getRed(), 255 - col.getGreen(),
+						255 - col.getBlue());
+				this.rgba[offset + curX] = col.getRGB();
+				image.setRGB(curX, curY, this.rgba[offset + curX]);
+			}
 		}
-		return pixelBuffer;
+	}
+
+	// TODO
+	public void threadInvert() {
+		int split = height / CORES;
+		int buffer = split;
+		Runnable run1 = new ImageHandlerThread(image, rgba, 0, split);
+		Runnable run2 = new ImageHandlerThread(image, rgba, split, split += buffer);
+		Runnable run3 = new ImageHandlerThread(image, rgba, split , split += buffer);
+		Runnable run4 = new ImageHandlerThread(image, rgba, split, split += buffer);
+		Thread thread1 = new Thread(run1);
+		Thread thread2 = new Thread(run2);
+		Thread thread3 = new Thread(run3);
+		Thread thread4 = new Thread(run4);
+		thread1.start();
+		thread2.start();
+		thread3.start();
+		thread4.start();
+		
+		try {
+			thread4.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	public void makeBrighter() {
+		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
+		rescaleOp.filter(image, image);
+	}
+
+	/*
+	 * 
+	 */
+	public void makeDarker() {
+		RescaleOp rescaleOp = new RescaleOp(0.8f, 15, null);
+		rescaleOp.filter(image, image);
 	}
 
 	/**
@@ -76,52 +135,27 @@ public class MyImageProcessor {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getHeigth() {
+		return height;
+	}
+
+	/**
+	 * 
 	 * @param width
 	 * @param height
 	 * @return
 	 */
 	public Image getScaledImage(int width, int height) {
 		return this.image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-	}
-
-	/**
-	 * 
-	 */
-	public void invert() {
-		int width = image.getWidth();
-		int height = image.getHeight();
-		int rgba;
-		Color col;
-		for (int curY = 1; curY < height; curY++) {
-			for (int curX = 1; curX < width; curX++) {
-				rgba = image.getRGB(curX, curY);
-				col = new Color(rgba, true);
-				col = new Color(255 - col.getRed(), 255 - col.getGreen(),
-						255 - col.getBlue());
-				image.setRGB(curX, curY, col.getRGB());
-			}
-		}
-	}
-
-	public void realInvert() {
-		int height = image.getHeight();
-		int width = image.getWidth();
-		for (int i = 0; i < height; i++) {
-			int offset = i * width;
-			for (int j = width; j < width; j++) {
-				int pos = offset + j;
-				this.imageAsByte[pos] = (byte) (255 - this.imageAsByte[pos]);
-			}
-		}
-	}
-	
-	public void makeBrighter() {
-		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
-		rescaleOp.filter(image, image);  
-	}
-	
-	public void makeDarker() {
-		RescaleOp rescaleOp = new RescaleOp(0.8f, 15, null);
-		rescaleOp.filter(image, image);  
 	}
 }

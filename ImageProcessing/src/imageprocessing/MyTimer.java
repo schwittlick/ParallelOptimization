@@ -17,7 +17,7 @@ public class MyTimer {
 	private long stop;
 
 	/**
-	 * Empty constructor.
+	 * Starts the timer.
 	 */
 	public MyTimer() {
 		start();

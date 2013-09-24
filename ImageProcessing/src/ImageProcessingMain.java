@@ -1,6 +1,6 @@
 import imageprocessing.MyImageProcessor;
 import ui.MainFrame;
-import controller.ImageProcessingController;
+import controller.ProcessingController;
 
 /**
  * 
@@ -14,9 +14,9 @@ public class ImageProcessingMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MainFrame ui = new MainFrame();
 		MyImageProcessor model = new MyImageProcessor();
-		ImageProcessingController controller = new ImageProcessingController(ui, model);
+		MainFrame ui = new MainFrame();
+		ProcessingController controller = new ProcessingController(ui, model);
 	}
 
 }
