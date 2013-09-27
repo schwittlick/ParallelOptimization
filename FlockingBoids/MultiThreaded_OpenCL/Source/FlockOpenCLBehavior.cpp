@@ -4,7 +4,9 @@
  */
  
 #include <FlockOpenCLBehavior.h>
+#include <BoidEntity.h>
 #include <EyeProjector/EyeProjector.h>
+#include <EyeProjector/Vector2D.h>
 
 /**
  * Creates new instance of this class.
@@ -50,4 +52,41 @@ FlockOpenCLBehavior& FlockOpenCLBehavior::operator = (const FlockOpenCLBehavior 
  */
 void FlockOpenCLBehavior::update(void)
 {
+	TListBoids* list = this->_group->getList();
+	
+	EP::TInt32 listSize 		= list->size();
+	EP::TUInt32 sizeUpdateList 	= 2 * listSize;
+	EP::TF32* dataStream 		= new EP::TF32[5 * listSize];
+	EP::TF32* updateDataStream 	= new EP::TF32[sizeUpdateList];
+	EP::TInt32 itemCounter 		= 0;
+	
+	for(TListBoids::iterator it=list->begin();it != list->end();++it)
+	{
+		EP::Vector2D position = (*it)->getPosition();
+		EP::Vector2D direction = (*it)->getDirection();
+		
+		dataStream[itemCounter] 	= position.getX();
+		dataStream[itemCounter + 1] = position.getY();
+		dataStream[itemCounter + 2] = direction.getX();
+		dataStream[itemCounter + 3] = direction.getY();
+		dataStream[itemCounter + 4] = (*it)->getVolcity();
+		
+		itemCounter += 5;
+	}
+	
+	this->_program->addParameter(&listSize, (int)sizeof(EP::TInt32), CL_MEM_READ_ONLY);
+	this->_program->addParameter(dataStream, 5 * listSize, CL_MEM_READ_ONLY);
+	
+	delete[] dataStream;
+	dataStream = NULL;
+	
+	this->_program->execute(updateDataStream, sizeUpdateList);
+	
+	itemCounter = 0;
+	
+	for(TListBoids::iterator it=list->begin();it != list->end();++it)
+	{
+		(*it)->setDirection(EP::Vector2D(updateDataStream[itemCounter], updateDataStream[itemCounter + 1]));
+		itemCounter += 2;
+	}
 }
