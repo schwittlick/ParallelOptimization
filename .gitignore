@@ -2,3 +2,7 @@ Quicksort/bin
 Quicksort/.projekt
 Quicksort/.classpath
 Quicksort/.settings
+*.o
+Build
+Doc
+.DS_Store
