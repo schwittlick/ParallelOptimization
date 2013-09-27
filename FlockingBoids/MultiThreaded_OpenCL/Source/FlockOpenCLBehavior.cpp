@@ -1,9 +1,10 @@
 /**
- * @version 	1.0.0 25-Sep-13
+ * @version 	1.0.0 26-Sep-13
  * @copyright	Copyright (c) 2013 by Andy Liebke. All rights reserved. (http://andysmiles4games.com)
  */
  
 #include <FlockOpenCLBehavior.h>
+#include <EyeProjector/EyeProjector.h>
 
 /**
  * Creates new instance of this class.
@@ -29,8 +30,9 @@ FlockOpenCLBehavior::FlockOpenCLBehavior(const FlockOpenCLBehavior &src)
 /**
  * Releases this instance of this class.
  */
-virtual FlockOpenCLBehavior::~FlockOpenCLBehavior(void)
+FlockOpenCLBehavior::~FlockOpenCLBehavior(void)
 {
+	MEMORY_RELEASE(this->_program);
 }
 
 /**

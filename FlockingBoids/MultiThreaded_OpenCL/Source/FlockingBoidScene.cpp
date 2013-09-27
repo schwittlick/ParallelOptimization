@@ -78,7 +78,7 @@ void FlockingBoidScene::init(void)
 	EP::TUInt32 screenWidth 	= EP::Window::getInstance().getScreenWidth();
 	EP::TUInt32 screenHeight 	= EP::Window::getInstance().getScreenHeight();
 	
-	this->_boidGroup->setBehavior(new FlockOpenCLBehavior(screenWidth, screenHeight));
+	this->_boidGroup->setBehavior(new FlockOpenCLBehavior((float)screenWidth, (float)screenHeight));
 	
 	for(EP::TUInt32 i=0;i < 600;++i){
 		this->_addBoid();
@@ -94,7 +94,7 @@ void FlockingBoidScene::init(void)
  */
 void FlockingBoidScene::update(void)
 {
-	FlockBehavior* behavior = (FlockBehavior*)this->_boidGroup->getBehavior();
+	FlockOpenCLBehavior* behavior = (FlockOpenCLBehavior*)this->_boidGroup->getBehavior();
 	
 	behavior->setAreaSize(EP::Window::getInstance().getScreenWidth(), EP::Window::getInstance().getScreenHeight());
 	
@@ -120,7 +120,6 @@ void FlockingBoidScene::render(void)
  */
 void FlockingBoidScene::release(void)
 {
-	MEMORY_RELEASE(this->_program);
 	MEMORY_RELEASE(this->_boidGroup);
 	MEMORY_DELETE(this->_countLabel);
 	MEMORY_DELETE(this->_profilerLabel);

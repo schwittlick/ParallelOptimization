@@ -36,7 +36,7 @@
 APP_TITLE = FlockingBoids
 LIST_OBJECTS = 	Build/FlockingBoidsMain.o \
 				Build/FlockingBoidScene.o \
-				Build/FlockBehavior.o \
+				Build/FlockOpenCLBehavior.o \
 				Build/BoidGroup.o \
 				Build/BoidEntity.o \
 				Build/BoidEntity.o \

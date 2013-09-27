@@ -1,5 +1,5 @@
 /**
- * @version 	1.0.0 25-Sep-13
+ * @version 	1.0.0 26-Sep-13
  * @copyright	Copyright (c) 2013 by Andy Liebke. All rights reserved. (http://andysmiles4games.com)
  */
 #ifndef __FLOCK_OPENCL_BEHAVIOR_H__
@@ -47,8 +47,29 @@ class FlockOpenCLBehavior : public BaseBehavior
 		 */
 		void update(void);
 		
+		/**
+		 * Assigns area size to this behavior module.
+		 *
+		 * @param width 	- area width
+		 * @param height	- area height
+		 */
+		void setAreaSize(const EP::TF32 width, const EP::TF32 height)
+		{
+			this->_areaWidth = width;
+			this->_areaHeight = height;
+		}
+		
 	private:
 		SimpleConcurrencyLib::Program* _program;
+		/**
+		 * Stores width of the environment area.
+		 */
+		EP::TF32 _areaWidth;
+		
+		/**
+		 * Stores height of the environment area.
+		 */
+		EP::TF32 _areaHeight;
 };
 
 #endif
