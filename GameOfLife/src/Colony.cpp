@@ -1,6 +1,8 @@
 #include "Colony.h"
 #include <omp.h>
 
+
+
 /*
  * the constructor initializes the entire colony and starts the timer neccessary to evaluate the elapsed time of different concurrency algorithms.
 */
@@ -16,6 +18,8 @@ gol::Colony::Colony(int dim)
 
 	updateNeighboursTimer = new  Timer();
 	advanceTimer = new Timer();
+
+	
 }
 
 /*
@@ -50,6 +54,16 @@ void gol::Colony::populateOpenMP(int nrOfCores)
 }
 
 /*
+ *develops a new step according to the game of life rules. this uses opencl to process the computation
+*/
+void gol::Colony::populateOpenCL( )
+{
+	
+	//exit( 1 );
+}
+
+
+/*
  * updates the neighbour count for each cell by using only one thread/core
 */
 void gol::Colony::updateNeighboursSequential(void)
@@ -81,6 +95,18 @@ void gol::Colony::advanceOpenMP(int nrOfCores)
 	advance(nrOfCores);
 }
 
+void gol::Colony::advanceOpenCL( void )
+{
+
+}
+
+void gol::Colony::updateNeighboursOpenCL( void )
+{
+
+}
+
+
+
 /*
  * advances the evolution of the game of life by one step. it utilizes openmp to split the workload on different threads working on different cpus.
 */
@@ -96,7 +122,9 @@ void gol::Colony::advance(int nrOfCores)
 		int end = per_thread * (currentThread + 1);
 
 		//std::cout << "Advance: ThreadNr: " << currentThread << " MaxThreads: " << maxThreads << " Todo: " << per_thread << " start: " << start << " end: " << end <<std::endl; 
-
+		// if alive -> count != 2/3 -> tot / else -> alive
+		// if dead -> count == 3 -> alive	
+		//
 		for(int i = start; i < end; i++)
 		{
 			if(cells[i]->isAlive())
@@ -245,7 +273,12 @@ gol::Cell* gol::Colony::getCell(int x, int y)
 
 void gol::Colony::setCell(int x, int y, Cell* c)
 {
-	cells[x+y*dimension] = c;
+	cells[x+y*dimension]->alive = c->alive;// = c;
+}
+
+void gol::Colony::setCell( int x, int y, bool status )
+{
+	cells[x+y*dimension]->alive = status;
 }
 
 int gol::Colony::getWidth(void)
@@ -273,3 +306,31 @@ Timer* gol::Colony::getAdvanceTimer(void)
 	return advanceTimer;
 }
 
+
+
+void gol::Colony::charArrayToOfImage( unsigned char* bu, ofImage* dstImage, int w, int h )
+{
+	image_bitmap = FreeImage_ConvertFromRawBits( ( BYTE* )bu, w, h, w*4, 32, 0xFF000000, 0x00FF0000, 0x0000FF00);
+
+	ofPixels pix;
+	unsigned int bpp = FreeImage_GetBPP(image_bitmap);
+	unsigned int channels = (bpp / sizeof(PixelType)) / 8;
+	unsigned int pitch = FreeImage_GetPitch(image_bitmap);
+
+	bmpBits = FreeImage_GetBits(image_bitmap);
+	if(bmpBits != NULL) {
+		pix.setFromAlignedPixels( bmpBits, w, h, channels, pitch );
+	} else {
+		ofLogError() << "ofImage::putBmpIntoPixels() unable to set ofPixels from FIBITMAP";
+	}
+
+ 	dstImage->setFromPixels( pix );
+	
+	
+}
+
+void gol::Colony::draw()
+{
+	//ima.draw( 0, 0 );
+	//FreeImage_Unload( image_bitmap );
+}

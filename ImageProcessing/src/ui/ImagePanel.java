@@ -1,27 +1,36 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
-import java.awt.Color;
 
 public class ImagePanel extends JPanel {
-	Image image;
-	
+	private Image image;
+		
 	public ImagePanel() {
+		super();
 		setupImagePanel();
 	}
 	
 	private void setupImagePanel() {
-		setBackground(Color.PINK);
-		setSize(375, 278);
+		//setSize(1200, 800);
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		//super.paintComponent(g);
+		g.drawImage(image, 0, 0, null);
 	}
 	
 	public void setImage(Image image) {
 		this.image = image;
+		this.updateUI();
 	}
 	
-	public void invertImage() {
-		
+	public void changeColor() {
+		setBackground(Color.RED);
 	}
+
 }

@@ -1,89 +1,64 @@
 package ui;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-
-import java.awt.Color;
-import java.awt.event.ActionEvent;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 
-import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicOptionPaneUI.ButtonActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
-public class MainPanel extends JPanel implements ActionListener {
-	private JButton invertButton;
-	private JButton gausButton;
-	private JButton brighterButton;
-	private JButton darkerButton;
-	private SpringLayout currentLayout;
-	private ImagePanel imagePanel;
+/**
+ * 
+ * @author Dennis Haegler
+ * 
+ */
+public class MainFrame extends JFrame {
+	private static final long serialVersionUID = 1L;
+	private MainPanel mainPanel;
+	private JButton button;
 
-	public MainPanel() {
-		invertButton = new JButton("Invert");
-		gausButton = new JButton("Gaus");
-		brighterButton = new JButton("+");
-		darkerButton = new JButton("-");
-		currentLayout = new SpringLayout();
-
-		imagePanel = new ImagePanel();
+	/**
+	 * Construct the main panel and this on frame.
+	 */
+	public MainFrame() {
+		mainPanel = new MainPanel();
 		this.setUp();
 	}
 
+	/**
+	 * 
+	 */
 	private void setUp() {
-		this.setButtonsOnPosition();
-		this.setLayout(currentLayout);
-		this.add(invertButton);
-		this.add(gausButton);
-		this.add(brighterButton);
-		this.add(darkerButton);
-		this.add(imagePanel);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(800, 600);
+		this.setContentPane(mainPanel);
+		this.setLocationRelativeTo(null);
 	}
 
-	private void setButtonsOnPosition() {
-		currentLayout.putConstraint(SpringLayout.WEST, darkerButton, 10,
-				SpringLayout.WEST, this);
-		currentLayout.putConstraint(SpringLayout.EAST, darkerButton, -16,
-				SpringLayout.WEST, brighterButton);
-		currentLayout.putConstraint(SpringLayout.NORTH, brighterButton, 0,
-				SpringLayout.NORTH, darkerButton);
-		currentLayout.putConstraint(SpringLayout.WEST, brighterButton, 0,
-				SpringLayout.WEST, invertButton);
-		currentLayout.putConstraint(SpringLayout.EAST, brighterButton, 0,
-				SpringLayout.EAST, invertButton);
-		currentLayout.putConstraint(SpringLayout.SOUTH, gausButton, -206,
-				SpringLayout.SOUTH, this);
-		currentLayout.putConstraint(SpringLayout.NORTH, darkerButton, 28,
-				SpringLayout.SOUTH, gausButton);
-		currentLayout.putConstraint(SpringLayout.NORTH, invertButton, 0,
-				SpringLayout.NORTH, gausButton);
-		currentLayout.putConstraint(SpringLayout.WEST, invertButton, 16,
-				SpringLayout.EAST, gausButton);
-		currentLayout.putConstraint(SpringLayout.WEST, gausButton, 10,
-				SpringLayout.WEST, this);
+	/**
+	 * 
+	 * @param e
+	 */
+	public void setActionListener(ActionListener e) {
+		this.mainPanel.setActionListener(e);
+	}
+	
+	/**
+	 * Sets a new image in the on the view.
+	 */
+	public void setImage(Image image) {
+		this.mainPanel.getImagePanel().setImage(image);
+	}
+	
+	public int getWidth() {
+		return this.mainPanel.getWidth();
 	}
 
-	private void addAllButtonsAnActionListener() {
-		invertButton.addActionListener(this);
-		gausButton.addActionListener(this);
-		brighterButton.addActionListener(this);
-		darkerButton.addActionListener(this);
+	public int getHeight() {
+		return this.mainPanel.getHeight();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == invertButton) {
-
-		}
-		if (e.getSource() == gausButton) {
-
-		}
-		if (e.getSource() == brighterButton) {
-
-		}
-		if (e.getSource() == darkerButton) {
-
-		}
-
+	public void setPanelSize(int width, int height) {
+		this.mainPanel.setPanelSize(width, height);
+		
 	}
 }

@@ -5,13 +5,13 @@
 #include "Colony.h"
 #include "ofxUI.h"
 #include "Timer.h"
-#include <string>
+#include "ofxFX.h"
 
-class OpenMpMode : public itg::ofxState<SharedData>
+class GLSLMode : public itg::ofxState<SharedData>
 {
 public:
-	OpenMpMode(void);
-	~OpenMpMode(void);
+	GLSLMode(void);
+	~GLSLMode(void);
 
 	void stateEnter(void);
 	void stateExit(void);
@@ -26,15 +26,24 @@ public:
 private:
 	ofxUICanvas *gui; // the graphical user interface
 	gol::Colony* colony; // the game of life colony
-	bool running; // determining if the animation is running
-	int dimension; // determining the size of the colony. neccessary for the reinitialization.
-	Timer *drawTimer; // timer timing the elapsed time during drawing the game of life.
+
+	Timer * drawTimer;
+	Timer * updateTimer;
+
+	int dimension;
+	bool running;
+	float elapsedTimeSinceLastReset;
+
 	void restart(void); // restarts the entire animation
 	void clean(void); // cleans some objects
 	void guiEvent(ofxUIEventArgs &e); // callback method for gui events
 
-	float elapsedTimeSinceLastReset;
+	ofxFXObject * conway;
+	ofFbo fbo;
+
 	ofFile file;
 	int elapsedFrames;
+
+	void init();
 };
 
