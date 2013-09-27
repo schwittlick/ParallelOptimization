@@ -71,7 +71,7 @@ void FlockingBoidScene::init(void)
 {
 	EP::InputManager::getInstance().addKeyboardReceiver(this);
 	
-	for(EP::TUInt32 i=0;i < 50;++i){
+	for(EP::TUInt32 i=0;i < 600;++i){
 		this->_addBoid();
 	}
 	
