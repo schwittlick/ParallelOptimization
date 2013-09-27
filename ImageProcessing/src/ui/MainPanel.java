@@ -7,8 +7,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 
-import ui.button.ButtonPanel;
-
 /**
  * 
  * @author Dennis Haegler

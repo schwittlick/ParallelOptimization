@@ -2,11 +2,13 @@ package controller;
 
 import imageprocessing.MyImageProcessor;
 import imageprocessing.MyTimer;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import ui.ButtonStats;
 import ui.MainFrame;
-import ui.button.ButtonStats;
 
 /**
  * 
@@ -54,14 +56,11 @@ public class ProcessingController implements ActionListener {
 		if (e.getActionCommand().equals(ButtonStats.INVERT)) {
 			model.invert();
 		}
-		if (e.getActionCommand().equals(ButtonStats.BRIGHTER)) {
+		if (e.getActionCommand().equals(ButtonStats.THREAD)) {
 			model.threadInvert();
 		}
-		if (e.getActionCommand().equals(ButtonStats.DARKER)) {
-			model.makeDarker();
-		}
 		timer.stop();
-		System.out.println("Time needed: " + timer.getTime() + " ms");
+		System.out.println(timer.getTime());
 		Image image = model.getScaledImage(view.getWidth(), view.getHeight());
 		view.setImage(image);
 	}

@@ -1,4 +1,4 @@
-package ui.button;
+package ui;
 
 import java.awt.event.ActionListener;
 
@@ -10,16 +10,14 @@ import javax.swing.JPanel;
  */
 public class ButtonPanel extends JPanel {
 	private MyButton invertButton;
-	private MyButton brighterButton;
-	private MyButton darkerButton;
+	private MyButton threadButton;
 
 	/**
 	 * 
 	 */
 	public ButtonPanel() {
-		invertButton = new MyButton("Invert");
-		brighterButton = new MyButton("+");
-		darkerButton = new MyButton("-");
+		invertButton = new MyButton("Solo");
+		threadButton = new MyButton("multi");
 		setUp();
 	}
 
@@ -28,8 +26,7 @@ public class ButtonPanel extends JPanel {
 	 */
 	private void setUp() {
 		this.add(invertButton);
-		this.add(brighterButton);
-		this.add(darkerButton);
+		this.add(threadButton);
 		this.setActionCommandToButton();
 		this.setVisible(true);
 	}
@@ -39,8 +36,7 @@ public class ButtonPanel extends JPanel {
 	 */
 	private void setActionCommandToButton() {
 		this.invertButton.setActionCommand(ButtonStats.INVERT);
-		this.brighterButton.setActionCommand(ButtonStats.BRIGHTER);
-		this.darkerButton.setActionCommand(ButtonStats.DARKER);
+		this.threadButton.setActionCommand(ButtonStats.THREAD);
 	}
 
 	/**
@@ -49,7 +45,6 @@ public class ButtonPanel extends JPanel {
 	 */
 	public void setActionListener(ActionListener actionListener) {
 		invertButton.addActionListener(actionListener);
-		brighterButton.addActionListener(actionListener);
-		darkerButton.addActionListener(actionListener);
+		threadButton.addActionListener(actionListener);
 	}
 }

@@ -20,7 +20,6 @@ public class ImagePanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		//super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 	}
 	
@@ -32,5 +31,4 @@ public class ImagePanel extends JPanel {
 	public void changeColor() {
 		setBackground(Color.RED);
 	}
-
 }

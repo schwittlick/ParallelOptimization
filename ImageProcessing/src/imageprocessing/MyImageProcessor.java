@@ -1,6 +1,8 @@
 package imageprocessing;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Manipulates images.
+ * 
  * @author Dennis Haegler
  * @version 1.0
  * 
@@ -19,16 +22,23 @@ import javax.imageio.ImageIO;
 public class MyImageProcessor {
 	private final int CORES = Runtime.getRuntime().availableProcessors();
 	private BufferedImage image;
-	private int[] rgba;
+	private ArrayList<BufferedImage> subImages;
 	private int width;
 	private int height;
 
 	/**
-	 * 
+	 * Prototype constructor. Loads the file named "test2.jpg" from the class
+	 * path. Sets the image up.
 	 */
 	public MyImageProcessor() {
 		try {
-			this.image = ImageIO.read(new File("test2.jpg"));
+			BufferedImage tempImage = ImageIO.read(new File("test2.jpg"));
+			BufferedImage img = new BufferedImage(tempImage.getWidth(),
+					tempImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g = img.createGraphics();
+			g.drawImage(tempImage, 0, 0, null);
+			g.dispose();
+			this.image = img;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,94 +52,60 @@ public class MyImageProcessor {
 	private void setUp() {
 		this.height = image.getHeight();
 		this.width = image.getWidth();
-		this.initRgbaArray();
-		setUpThreads();
-	}
-	
-	/**
-	 * 
-	 */
-	private void initRgbaArray() {
-		this.rgba = new int[width * height];
-		int offset;
-		for (int curY = 1; curY < height; curY++) {
-			offset = curY * width;
-			for (int curX = 1; curX < width; curX++) {
-				rgba[offset + curX] = image.getRGB(curX, curY);
-			}
+		int subHeight = height / CORES;
+		subImages = new ArrayList<BufferedImage>();
+		int buffer = 0;
+		for (int subImage = 1; subImage <= CORES; ++subImage) {
+			BufferedImage img = image.getSubimage(0, buffer, width, subHeight);
+			buffer += subHeight;
+			subImages.add(img);
 		}
 	}
 
-	/*
-	 * 
-	 */
-	private void setUpThreads() {
-	}
-
 	/**
-	 * 
+	 * Inverts the colors of the image.
 	 */
 	public void invert() {
 		Color col;
-		int offset;
+		int width = image.getWidth();
 		for (int curY = 1; curY < height; curY++) {
-			offset = curY * width;
 			for (int curX = 1; curX < width; curX++) {
-				col = new Color(this.rgba[offset + curX], true);
+				col = new Color(image.getRGB(curX, curY), true);
 				col = new Color(255 - col.getRed(), 255 - col.getGreen(),
 						255 - col.getBlue());
-				this.rgba[offset + curX] = col.getRGB();
-				image.setRGB(curX, curY, this.rgba[offset + curX]);
+				image.setRGB(curX, curY, col.getRGB());
 			}
 		}
 	}
 
-	// TODO
-	public void threadInvert() {
-		int split = height / CORES;
-		int buffer = split;
-		Runnable run1 = new ImageHandlerThread(image, rgba, 0, split);
-		Runnable run2 = new ImageHandlerThread(image, rgba, split, split += buffer);
-		Runnable run3 = new ImageHandlerThread(image, rgba, split , split += buffer);
-		Runnable run4 = new ImageHandlerThread(image, rgba, split, split += buffer);
-		Thread thread1 = new Thread(run1);
-		Thread thread2 = new Thread(run2);
-		Thread thread3 = new Thread(run3);
-		Thread thread4 = new Thread(run4);
-		thread1.start();
-		thread2.start();
-		thread3.start();
-		thread4.start();
-		
-		try {
-			thread4.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	/**
-	 * 
+	 * Inverts the color of the image in the count of threads how many cores are
+	 * available from the computer.
 	 */
-	public void makeBrighter() {
-		RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
-		rescaleOp.filter(image, image);
-	}
-
-	/*
-	 * 
-	 */
-	public void makeDarker() {
-		RescaleOp rescaleOp = new RescaleOp(0.8f, 15, null);
-		rescaleOp.filter(image, image);
+	public void threadInvert() {
+		ArrayList<Thread> threads = new ArrayList<Thread>();
+		for (BufferedImage img : subImages) {
+			Runnable run = new ImageHandlerThread(img);
+			threads.add(new Thread(run));
+		}
+		for (Thread thread : threads) {
+			thread.start();
+		}
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+		}
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public Image getImage() {
+	public BufferedImage getImage() {
 		return this.image;
 	}
 
